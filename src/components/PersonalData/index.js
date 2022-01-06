@@ -1,21 +1,21 @@
 import React, { useState, useContext } from 'react'
 import { Button, TextField, Switch, FormControlLabel } from '@material-ui/core'
-import ValidacoesCadastro from '../../contexts/ValidacoesCadastro'
+import RegisterValidation from '../../contexts/RegisterValidations'
 
-function DadosPessoais({ aoEnviar, validacoes }) {
+function PersonalData ({ whenSendingForm }) {
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [cpf, setCpf] = useState("");
   const [promocoes, setPromocoes] = useState(true);
   const [novidades, setNovidades] = useState(false);
-  const [erros, setErros] = useState({ cpf: { valido: true, texto: "" }, nome: { valido: true, texto: "" } });
+  const [erros, setErros] = useState({ cpf: { valido: true, texto: "" } })
 
-  const validacoes = useContext(ValidacoesCadastro)
+  const validations = useContext(RegisterValidation)
 
   function validarCampos(event) {
     const { name, value } = event.target;
     const novoEstado = { ...erros };
-    novoEstado[name] = validacoes[name](value);
+    novoEstado[name] = validations[name](value);
     setErros(novoEstado);
   }
   function possoEnviar() {
@@ -31,7 +31,7 @@ function DadosPessoais({ aoEnviar, validacoes }) {
       onSubmit={(event) => {
         event.preventDefault();
         if (possoEnviar()) {
-          aoEnviar({ nome, sobrenome, cpf, novidades, promocoes });
+          whenSendingForm({ nome, sobrenome, cpf, novidades, promocoes });
         }
       }}
     >
@@ -113,4 +113,4 @@ function DadosPessoais({ aoEnviar, validacoes }) {
   );
 }
 
-export default DadosPessoais;
+export default PersonalData;

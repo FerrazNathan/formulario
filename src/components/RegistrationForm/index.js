@@ -1,41 +1,45 @@
 import React, { useState, useEffect } from 'react'
-import DadosPessoais from '../DadosPessoais'
-import DadosUsuario from '../DadosUsuario'
-import DadosEntrega from '../DadosEntrega'
+import PersonalData from '../PersonalData'
+import UserData from '../UserData'
+import DeliveryData from '../DeliveryData'
 import { Typography, Stepper, Step, StepLabel } from '@material-ui/core'
 
-function FormularioCadastro({ aoEnviar, validacoes }) {
-  const [etapaAtual, setEtapaAtual] = useState(0);
-  const [dadosColetados, setDados] = useState({});
+function RegistrationForm({ whenSendingForm, validations }) {
+  const [currentStage, setCurrentStage] = useState(0);
+  const [RegisterValidation, setDados] = useState({});
+
   useEffect(() => {
-    if (etapaAtual === formularios.length - 1) {
-      aoEnviar(dadosColetados);
+    if (currentStage === allforms.length - 1) {
+      whenSendingForm(RegisterValidation);
     }
   })
 
-  const formularios = [
-    <DadosUsuario aoEnviar={coletarDados} validacoes={validacoes} />,
-    <DadosPessoais aoEnviar={coletarDados} validacoes={validacoes} />,
-    <DadosEntrega aoEnviar={coletarDados} validacoes={validacoes} />,
+  const allforms = [
+    <UserData whenSendingForm={collectData} validations={validations} />,
+    <PersonalData whenSendingForm={collectData} validations={validations} />,
+    <DeliveryData whenSendingForm={collectData} validations={validations} />,
     <Typography variant="h5">Obrigado pelo Cadastro!</Typography>
   ];
 
-  function coletarDados(dados) {
-    setDados({ ...dadosColetados, ...dados });
-    proximo();
+  function collectData(dados) {
+    setDados({ ...RegisterValidation, ...dados });
+    nextPage();
   }
-  function proximo() {
-    setEtapaAtual(etapaAtual + 1);
+  function nextPage() {
+    setCurrentStage(currentStage + 1);
   }
-  return <>
-    <Stepper activeStep={etapaAtual}>
-      <Step><StepLabel>Login</StepLabel></Step>
-      <Step><StepLabel>Pessoal</StepLabel></Step>
-      <Step><StepLabel>Entrega</StepLabel></Step>
-      <Step><StepLabel>Finalização</StepLabel></Step>
-    </Stepper>
-    {formularios[etapaAtual]}
-  </>;
+
+  return (
+    <>
+      <Stepper activeStep={currentStage}>
+        <Step><StepLabel>Login</StepLabel></Step>
+        <Step><StepLabel>Pessoal</StepLabel></Step>
+        <Step><StepLabel>Entrega</StepLabel></Step>
+        <Step><StepLabel>Finalização</StepLabel></Step>
+      </Stepper>
+      {formularios[currentStage]}
+    </>
+  )
 }
 
-export default FormularioCadastro;
+export default RegistrationForm;

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { TextField, Button } from '@material-ui/core'
 
-function DadosEntrega({ aoEnviar }) {
+function DeliveryData({ whenSendingForm }) {
   const [cep, setCep] = useState("");
   const [endereco, setEndereco] = useState("");
   const [numero, setNumero] = useState("");
@@ -12,7 +12,7 @@ function DadosEntrega({ aoEnviar }) {
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        aoEnviar({ cep, endereco, numero, estado, cidade });
+        whenSendingForm({ cep, endereco, numero, estado, cidade });
       }}
     >
       <TextField
@@ -83,4 +83,4 @@ function DadosEntrega({ aoEnviar }) {
   );
 }
 
-export default DadosEntrega;
+export default DeliveryData;
