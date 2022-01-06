@@ -1,5 +1,5 @@
 import React from 'react'
 
-const ValidacoesCadastro = React.createContext()
+const RegisterValidation = React.createContext()
 
-export default ValidacoesCadastro
+export default RegisterValidation

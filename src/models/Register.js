@@ -1,4 +1,4 @@
-function validarCPF(cpf) {
+function validateCPF(cpf) {
   if (cpf.length !== 11) {
     return { valido: false, texto: "CPF deve ter 11 dígitos." };
   } else {
@@ -6,7 +6,7 @@ function validarCPF(cpf) {
   }
 }
 
-function validarSenha(senha) {
+function validatePassword(senha) {
   if (senha.length < 4 || senha.length > 72) {
     return { valido: false, texto: "Senha deve ter 4 e 72 dígitos." };
   } else {
@@ -14,4 +14,4 @@ function validarSenha(senha) {
   }
 }
 
-export { validarCPF, validarSenha };
+export { validateCPF, validatePassword };
