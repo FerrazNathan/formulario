@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react'
 import { Button, TextField, Switch, FormControlLabel } from '@material-ui/core'
 import RegisterValidation from '../../contexts/RegisterValidations'
+import useErros from '../../hooks/useErros';
 
 function PersonalData ({ whenSendingForm }) {
   const [nome, setNome] = useState("");
@@ -8,29 +9,14 @@ function PersonalData ({ whenSendingForm }) {
   const [cpf, setCpf] = useState("");
   const [promocoes, setPromocoes] = useState(true);
   const [novidades, setNovidades] = useState(false);
-  const [erros, setErros] = useState({ cpf: { valido: true, texto: "" } })
-
   const validations = useContext(RegisterValidation)
+  const [erros, validateFields, iCanSend] = useErros(validations)
 
-  function validarCampos(event) {
-    const { name, value } = event.target;
-    const novoEstado = { ...erros };
-    novoEstado[name] = validations[name](value);
-    setErros(novoEstado);
-  }
-  function possoEnviar() {
-    for (let campo in erros) {
-      if (!erros[campo].valido) {
-        return false;
-      }
-    }
-    return true;
-  }
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        if (possoEnviar()) {
+        if (iCanSend()) {
           whenSendingForm({ nome, sobrenome, cpf, novidades, promocoes });
         }
       }}
@@ -40,7 +26,7 @@ function PersonalData ({ whenSendingForm }) {
         onChange={(event) => {
           setNome(event.target.value);
         }}
-        onBlur={validarCampos}
+        onBlur={validateFields}
         error={!erros.nome.valido}
         helperText={erros.nome.texto}
         id="nome"
@@ -67,7 +53,7 @@ function PersonalData ({ whenSendingForm }) {
         onChange={(event) => {
           setCpf(event.target.value);
         }}
-        onBlur={validarCampos}
+        onBlur={validateFields}
         error={!erros.cpf.valido}
         helperText={erros.cpf.texto}
         id="CPF"

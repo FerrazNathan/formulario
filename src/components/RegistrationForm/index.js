@@ -37,7 +37,7 @@ function RegistrationForm({ whenSendingForm, validations }) {
         <Step><StepLabel>Entrega</StepLabel></Step>
         <Step><StepLabel>Finalização</StepLabel></Step>
       </Stepper>
-      {formularios[currentStage]}
+      {allforms [currentStage]}
     </>
   )
 }
